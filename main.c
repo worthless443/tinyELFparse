@@ -4,9 +4,18 @@
 #include"coreutils.h"
 #include"xtoi.h"
 
+#ifndef _TARGET
+#define _TARGET "<prog>"
+#endif
+
+#define STRFY(str) STRFY1(str)
+#define STRFY1(str) STRFY2(str)
+#define STRFY2(str) #str
+
 int main(int argc, char **argv) {
+	char helpbuffer[100];
 	if(argc < 4 || argc > 4) {
-		fprintf(stderr,"./<prog> <start_pos> <content> <outfile>\n");
+		fprintf(stderr, "./" STRFY(_TARGET) " <start_pos> <content> <outfile>\n");
 		return 1;
 	}
 	// the basic model
