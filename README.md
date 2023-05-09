@@ -7,22 +7,28 @@ it's very tiny, so no need multithreaded build.
 ```bash
 $ cd tinyELFparse
 $ make 
-./main
+$ ./eparser <flags>
+# or 
+$ make TARGET=<your_target>
+./<your_target> <flags>
 ```
 ### help 
 ```bash
-./<prog> <start_pos> <content> <outfile>
+./<TARGET> <start_pos> <content> <outfile>
 ```
+(yes, the help message updates with respect the target set)
+
 An example run would be:
 ```
-./main $((0xa0)) "hello world" model
+./eparser $((0xa0)) "hello world" tinyelf
 ```
-outputs 
+produces a binary file `tinyelf` and outputs:
 
 ```bash
 Header type - ELF
 Header Content - "hello world"
 Param 0 == -96; Param 1 == 64; Param 2 == -128
+Masked Param 0 == -42; Masked Param 1 == -33; Masked Param 2 == 84
 ```
 ## Notes
 This is a still work-in-progress, and the argument parsing is not done well at all, hopefully it will be solved in the next or twocommits

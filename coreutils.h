@@ -1,3 +1,7 @@
+#define __get_masked(a) ((a & 0xf0) >> 1) & (a << 1)
+#define ERROR_TRAP -1
+#define ERROR_CHMOD -2
+
 struct hdr_loader {
 	char first[3];
 	char mask;
@@ -8,15 +12,19 @@ struct hdr_loader {
 	struct {
 		char bytes, bytes1,bytes2;
 	} load_struct[1]; 
+	struct {
+		char bytes, bytes1,bytes2;
+	} load_struct_masked[1];
 };
-
 
 int create_rawbytes(char *rawstring, char *input, int start_pos);
 
 void get_hdr(struct hdr_loader *ld, int start_pos, char *input_str);
 
-void write_and_get_hdr(struct hdr_loader *ld, int start_pos, char *input_str, char *output);
+int write_and_get_hdr(struct hdr_loader *ld, int start_pos, char *input_str, char *output);
 
-void read_model_fmt(const char *input, struct hdr_loader *ld);
+int read_model_fmt(const char *input, struct hdr_loader *ld,int size);
 
 void print_hdr(struct hdr_loader ld);
+
+int mk_executable(const char *fn);
