@@ -4,7 +4,7 @@ INCLUDE=-I./ -I../glib_impl
 LIB_INCLUDE=-L../glib_impl
 LIB=-lgimpl
 include config.mk
-FLAGS=-D_TARGET="${TARGET}"
+FLAGS=-D_TARGET="${TARGET}" -Wall -O3
 
 all: $(MAIN)
 
