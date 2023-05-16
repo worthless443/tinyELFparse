@@ -12,21 +12,31 @@
 #define STRFY1(str) STRFY2(str)
 #define STRFY2(str) #str
 
+int convert_hex_string_int(char *str) {
+	if(*str != '0' && str[1] != 'x')
+		return ERROR_PARSE;
+			
+	return strtol(str + 2,NULL,16);
+}
+
 int main(int argc, char **argv) {
-	char helpbuffer[100];
+	int start_pos;
+	
 	if(argc < 4 || argc > 4) {
 		fprintf(stderr, "./" STRFY(_TARGET) " <start_pos> <content> <outfile>\n");
 		return 1;
 	}
+	
 	// the basic model
+	if((start_pos = convert_hex_string_int(argv[1])) == ERROR_PARSE) {
+		fprintf(stderr, STRFY(_TARGET) ":invalid hex start position:\"%s\"\n",argv[1]);
+	}
 	int size;
-	char *desg = "elf\0you are shit\0\x10\xf1\x69\x41\x42\x43";
-	struct hdr_loader *ld = malloc(sizeof(char)*20), *f_ld = malloc(sizeof(char)*20); 
-
-	struct hdr_loader *_ld = (struct hdr_loader*)desg;
-	if((size = write_and_get_hdr(ld, _atoi(argv[1]),argv[2],argv[3])) == 0)
+	struct hdr_loader *ld = malloc(sizeof(char)*25), *f_ld = malloc(sizeof(char)*25); 
+	
+	if((size = write_and_get_hdr(ld, start_pos,argv[2],argv[3])) == 0)
 		return 2;
-	read_model_fmt(argv[3], f_ld, size);
+	read_model_fmt(argv[3], f_ld);
 //	if(mk_executable(argv[3]) == ERROR_CHMOD) {
 //		fprintf(stderr, "%s: error for chmod\n", argv[3]);
 //		return 3;

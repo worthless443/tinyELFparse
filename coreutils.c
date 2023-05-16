@@ -68,7 +68,8 @@ int create_rawbytes(char *rawstring, char *input, int start_pos) {
 		rawstring[size] = bytesstring[ii];
 	for(int ii=0;ii<3;++size,++ii) 
 		rawstring[size] = bytesstring_masked[ii];
-	return size;
+	rawstring[size] = size + 1;
+	return size + 1;
 }
 
 void get_hdr(struct hdr_loader *ld, int start_pos, char *input_str) {
@@ -96,14 +97,18 @@ int write_and_get_hdr(struct hdr_loader *ld, int start_pos, char *input_str, cha
 	return size;
 }
 
-int read_model_fmt(const char *input, struct hdr_loader *ld, int size) {
+int read_model_fmt(const char *input, struct hdr_loader *ld) {
 	int i;
 	FILE *f = fopen(input,"r");
-	char *data = malloc(sizeof(char)*size);
+	char *data = malloc(sizeof(char)*4095);
 	char *buffer = data;
 	for(i=1;fread(buffer,1,1,f);++i) {
 		data = realloc(data,i);
 		buffer = data + (i - 1); }
+	if(0 != strcmp(data,"ELF")) {
+		return ERROR_FILE_FORMAT;
+	}
+	int size = ((struct hdr_loader*)data)->size->s;
 	memcpy(ld,(struct hdr_loader*)data,size);
 	free(data);
 	fclose(f);
@@ -111,6 +116,7 @@ int read_model_fmt(const char *input, struct hdr_loader *ld, int size) {
 }
 
 void print_hdr(struct hdr_loader ld) {
+	printf("size - %d\n", ld.size->s);
 	printf("Header type - %s\n", ld.first);
 	printf("Header Content - \"%s\"\n",ld.second);
 	printf("Param 0 == %d; Param 1 == %d; Param 2 == %d\n", ld.load_struct->bytes,ld.load_struct->bytes1,ld.load_struct->bytes2);
