@@ -20,9 +20,14 @@ $ make TARGET=<your_target>
 
 An example run would be:
 ```
-./eparser $((0xa0)) "hello world" tinyelf
+./eparser 0xfe1 "hello world" tinyelf
 ```
-produces a binary file `tinyelf` and outputs:
+produces a binary file `tinyelf`
+To read the file
+```bash
+./eparser tinyelf -ro
+```
+Produces:
 
 ```bash
 Header type - ELF
