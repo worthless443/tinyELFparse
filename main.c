@@ -3,7 +3,6 @@
 #include<string.h>
 
 #include"coreutils.h"
-#include"xtoi.h"
 
 int convert_hex_string_int(char *str) {
 	if(*str != '0' && str[1] != 'x')
@@ -31,7 +30,7 @@ int main(int argc, char **argv) {
 			fprintf(stderr, STRFY(_TARGET) ":invalid hex start position:\"%s\"\n",argv[1]);
 		}
 		int size;
-		struct hdr_loader ld;// = malloc(sizeof(char)*25); 
+		struct hdr_loader ld;//= malloc(sizeof(char)*25); 
 		if((size = write_and_get_hdr(&ld, start_pos,argv[2],out_fn)) == 0)
 			return 2;
 	}
