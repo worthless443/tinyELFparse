@@ -6,11 +6,11 @@ LIB=-lgimpl
 include config.mk
 FLAGS=-D_TARGET="${TARGET}" -Wall -O3
 
-all: $(MAIN)
+all: $(TARGET)
 
 $(OBJS):%.o : %.c 
 	$(CC) -c $^ ${INCLUDE} ${FLAGS} -o $@
-$(MAIN): $(OBJS)
-	${CC} $@ ${INCLUDE} ${LIB_INCLUDE} ${LIB} ${FLAGS} $^ -o ${TARGET}
+$(TARGET): $(MAIN) $(OBJS)
+	${CC} $^ ${INCLUDE} ${LIB_INCLUDE} ${LIB} ${FLAGS} -o $@
 clean:
 	rm -rf *.o ${TARGET}
