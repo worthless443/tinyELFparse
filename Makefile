@@ -9,7 +9,7 @@ FLAGS=-D_TARGET="${TARGET}" -Wall -O3
 all: $(MAIN)
 
 $(OBJS):%.o : %.c 
-	$(CC) -c $^ ${INCLUDE} -o $@
+	$(CC) -c $^ ${INCLUDE} ${FLAGS} -o $@
 $(MAIN): $(OBJS)
 	${CC} $@ ${INCLUDE} ${LIB_INCLUDE} ${LIB} ${FLAGS} $^ -o ${TARGET}
 clean:

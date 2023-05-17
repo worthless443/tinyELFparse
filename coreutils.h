@@ -3,6 +3,15 @@
 #define ERROR_CHMOD -2
 #define ERROR_PARSE -4
 #define ERROR_FILE_FORMAT -5
+#define ERROR_FILE_NOT_FOUND -6
+
+#ifndef _TARGET
+#define _TARGET "<prog>"
+#endif
+
+#define STRFY(str) STRFY1(str)
+#define STRFY1(str) STRFY2(str)
+#define STRFY2(str) #str
 
 struct hdr_loader {
 	char first[3];

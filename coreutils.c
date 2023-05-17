@@ -15,6 +15,7 @@ static int create_bytes_string(char *bytesstring, int start_pos) {
 		}
 		if(ii>100) return ERROR_TRAP;
 	}
+	return 0;
 }
 
 static int create_bytes_string_masked(char *bytesstring, int start_pos) {
@@ -62,8 +63,7 @@ int create_rawbytes(char *rawstring, char *input, int start_pos) {
 	if((err = create_bytes_string_masked(bytesstring_masked, start_pos)) == ERROR_TRAP) {
 		fprintf(stderr, "create_bytes_string_masked: Input start position ened up in ERROR_TRAP\n");
 		return 0;
-	}
-	size=12 + strlen(tmpstring) + 2;
+	} size=12 + strlen(tmpstring) + 2;
 	for(int ii=0;ii<3;++size,++ii)
 		rawstring[size] = bytesstring[ii];
 	for(int ii=0;ii<3;++size,++ii) 
@@ -99,7 +99,11 @@ int write_and_get_hdr(struct hdr_loader *ld, int start_pos, char *input_str, cha
 
 int read_model_fmt(const char *input, struct hdr_loader *ld) {
 	int i;
-	FILE *f = fopen(input,"r");
+	FILE *f;
+	if((f = fopen(input,"r")) == NULL) {
+		perror(STRFY(_TARGET));
+		return ERROR_FILE_NOT_FOUND;
+	}
 	char *data = malloc(sizeof(char)*4095);
 	char *buffer = data;
 	for(i=1;fread(buffer,1,1,f);++i) {
