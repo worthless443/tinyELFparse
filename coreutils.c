@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<errno.h>
 #include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
 
 #include<coreutils.h>
 
@@ -84,16 +86,18 @@ void get_hdr(struct hdr_loader *ld, int start_pos, char *input_str) {
 
 int write_and_get_hdr(struct hdr_loader *ld, int start_pos, char *input_str, char *output) {
 	char rawstring[32];
+	memset(rawstring,'\0',32);
 	int size = create_rawbytes(rawstring, input_str, start_pos);
 	if(size == 0) {
 		fprintf(stderr,"couldn't get header\n");
 		return 0;
 	}
 	memcpy(ld,(struct hdr_loader*)rawstring,size);
-	FILE *f = fopen(output, "wb");
-	fwrite("\0",1,1,f);
-	fwrite(rawstring,1,size,f);
-	fclose(f);
+	int fd = open(output, O_WRONLY | O_CREAT, 0777);
+	write(fd,"\0",1);
+	write(fd,rawstring,size);
+	close(fd);
+	//fclose(f);
 	return size;
 }
 

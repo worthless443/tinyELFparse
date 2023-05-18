@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
 			fprintf(stderr, STRFY(_TARGET) ":invalid hex start position:\"%s\"\n",argv[1]);
 		}
 		int size;
-		struct hdr_loader ld;//= malloc(sizeof(char)*25); 
-		if((size = write_and_get_hdr(&ld, start_pos,argv[2],out_fn)) == 0)
+		struct hdr_loader *ld= malloc(sizeof(struct hdr_loader)*25); 
+		if((size = write_and_get_hdr(ld, start_pos,argv[2],out_fn)) == 0)
 			return 2;
 	}
 	if(read_only) {
@@ -42,10 +42,5 @@ int main(int argc, char **argv) {
 		print_hdr(*f_ld);
 		free(f_ld);
 	}
-// TODO: Make it possible
-//	if(mk_executable(argv[3]) == ERROR_CHMOD) {
-//		fprintf(stderr, "%s: error for chmod\n", argv[3]);
-//		return 3;
-//	}
     return 0;
 }
