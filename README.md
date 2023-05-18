@@ -36,5 +36,5 @@ Param 0 == -96; Param 1 == 64; Param 2 == -128
 Masked Param 0 == -42; Masked Param 1 == -33; Masked Param 2 == 84
 ```
 ## Notes
-This is a still work-in-progress, and the argument parsing is not done well at all, hopefully it will be solved in the next or twocommits
+This is a still work-in-progress, and the argument parsing is tackled but is not enough but still is enough to get the job done.
 r
