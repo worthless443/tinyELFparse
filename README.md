@@ -30,6 +30,7 @@ To read the file
 Produces:
 
 ```bash
+size - 24
 Header type - ELF
 Header Content - "hello world"
 Param 0 == -96; Param 1 == 64; Param 2 == -128
